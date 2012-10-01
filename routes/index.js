@@ -2,8 +2,10 @@
 var db = require('./database');
 var coll = require('./collection');
 var doc = require('./document');
+var gridstore = require('./gridstore');
 
 exports.viewDatabase = db.viewDatabase;
+exports.storeFile = db.storeFile;
 
 exports.viewCollection = coll.viewCollection;
 exports.addCollection = coll.addCollection;
@@ -15,6 +17,9 @@ exports.updateDocument = doc.updateDocument;
 exports.deleteDocument = doc.deleteDocument;
 exports.addDocument = doc.addDocument;
 
+exports.storeFile = gridstore.storeFile;
+exports.listFile = gridstore.listFile;
+exports.getFile = gridstore.getFile;
 
 //Homepage route
 exports.index = function(req, res) {

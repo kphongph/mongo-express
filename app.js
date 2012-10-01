@@ -6,6 +6,8 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http');
 
+
+
 var _ = require('underscore');
 var async = require('async');
 var utils = require('./utils');
@@ -265,6 +267,26 @@ app.param('collection', function(req, res, next, id) {
   });
 });
 
+app.param('file', function(req, res, next, id) {
+  if (id.length == 24) {
+    try {
+      id = new mongdb.ObjectID.createFromHexString(id);
+    } catch (err) {
+          
+    }
+  }        
+  //var gridStore = new mongodb.GridStore(req.db, id, 'r', {root:'csv'});
+  var gridStore = new mongodb.GridStore(req.db, id, 'r');
+  gridStore.open(function(err, gridStore) {
+    if(err) {
+    } else {
+      console.log('found gridStrore');
+      req.gridfile = gridStore;
+      next();
+    }
+  });  
+});
+
 //:document param MUST be preceded by a :collection param
 app.param('document', function(req, res, next, id) {
   if (id.length == 24) {
@@ -301,6 +323,12 @@ var middleware = function(req, res, next) {
   next();
 };
 
+
+//upload
+app.get('/gridstore/:database/:file', middleware, routes.getFile);
+app.get('/gridstore/:database', middleware, routes.listFile);
+app.post('/gridstore/:database', middleware, routes.storeFile);
+
 //Routes
 app.get('/', middleware,  routes.index);
 
@@ -312,6 +340,7 @@ app.post('/db/:database/:collection', middleware, routes.addDocument);
 app.get('/db/:database/:collection', middleware, routes.viewCollection);
 app.put('/db/:database/:collection', middleware, routes.renameCollection);
 app.del('/db/:database/:collection', middleware, routes.deleteCollection);
+
 app.post('/db/:database', middleware, routes.addCollection);
 
 app.get('/db/:database', middleware, routes.viewDatabase);

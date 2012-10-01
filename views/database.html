@@ -53,4 +53,73 @@
   </tr>
   {% endfor %}
 </table>
+
+
+<h2>Manage File</h2>
+<table >
+  <tr>
+    <td>
+      <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#uploadFileModal">Launch modal</button>
+    </td>
+  </tr>
+</table>
+{{file_list}}
+
+
+
+<!----****************- start Form ---->
+<iframe id="upload_target" 	name="upload_target" 	style="width:0;height:0;border:0px solid #fff;"> </iframe>  
+<form id="file_upload_form" method="post" enctype="multipart/form-data" action="/gridstore/{{ dbName }}" target="upload_target" class="form-horizontal">                  
+  <div class="modal hide fade" id="uploadFileModal">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>File Uploader</h3>
+    </div>
+    
+    <div class="modal-body">                         	                
+      <div class="span5">
+        <span class="span2">
+          <input class="span2" type="text" placeholder="Description" ng-model="title" name="title">        
+        </span>
+        <span class="btn btn-success fileinput-button span2">
+          <i class="icon-plus icon-white"></i>
+            <span>Select File</span>
+              <input type="file" name="file" id="file" onchange="angular.element(this).scope().setFile(this)"/>
+            </span>                
+      </div>
+            
+      <div class="span5">        
+        <ul class="span5">
+          <li ng-repeat="file in file_item.files">{{file.filename}} </li>
+        </ul>
+      </div>
+      <div class="span5">        
+        <span>
+          <span ng-show="theFile">
+            <i class="icon-file"></i>{{theFile.name}}
+          </span>    
+          <span ng-switch on="success" >                
+            <span ng-switch-when="false">
+              <div class="alert alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <h4>Error!</h4>
+                  {{message}}
+              </div>
+            </span>  
+            <span ng-switch-default></span>              
+          </span>
+        </span>              
+      </div>
+    </div>
+   
+    <div class="modal-footer">                    
+      <button type="submit" class="btn btn-primary start">
+        <i class="icon-upload icon-white"></i>
+        <span>Start Upload</span>
+      </button>                                
+    </div>
+  </div>
+
+
+</form>
 {% endblock %}

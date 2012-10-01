@@ -12,7 +12,10 @@
     "mongodb": "0.9.x",
     "swig": "0.11.x",
     "underscore": "1.3.x",
-    "async": "0.1.x"
+    "async": "0.1.x",
+    "mongodb" : "*",
+    "hbs" : "*",
+    "underscore" : "*"
   },
   "devDependencies": {
     "mocha": "1.0.x",

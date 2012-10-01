@@ -1,3 +1,4 @@
+
 exports.viewDatabase = function(req, res) {
   var ctx = {
     title: 'Viewing Database: ' + req.dbName,
@@ -5,3 +6,4 @@ exports.viewDatabase = function(req, res) {
   };
   res.render('database', ctx);
 }
+
